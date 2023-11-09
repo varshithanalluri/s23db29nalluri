@@ -1,9 +1,6 @@
 var express = require('express');
+const item_controlers= require('../controllers/item');
 var router = express.Router();
-
-/* GET home page. */
-router.get('/', function(req, res, next) {
-  res.render('items', { title: 'Search Results Items' });
-});
-
+/* GET costumes */
+router.get('/', item_controlers.item_view_all_Page );
 module.exports = router;
