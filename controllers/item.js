@@ -44,9 +44,18 @@ exports.item_create_post = async function(req, res) {
     } 
    };
 // Handle Costume delete form on DELETE.
-exports.item_delete = function(req, res) {
- res.send('NOT IMPLEMENTED: item delete DELETE ' + req.params.id);
-};
+exports.item_delete = exports.item_delete = async function(req, res) {
+    console.log("delete " + req.params.id)
+    try {
+    result = await item.findByIdAndDelete( req.params.id)
+    console.log("Removed " + result)
+    res.send(result)
+    } catch (err) {
+    res.status(500)
+    res.send(`{"error": Error deleting ${err}}`);
+    }
+    };
+    
 // Handle Costume update form on PUT.
 exports.item_update_put =async function(req, res) {
     console.log(`update on id ${req.params.id} with body
