@@ -1,0 +1,39 @@
+extends layout
+
+block content
+  h1= title
+  if (toShow == null)
+    h2 No instance to delete
+  else
+    - let id = toShow._id
+    - let item_name = toShow.item_name
+    - let category = toShow.category
+    - let quantity= toShow.quantity
+    form(id='itemForm', action="/resource/item/"+id, method="PUT")
+      div.form-group
+        label.costumeAttr(for='item_name') item name
+        input#item_name(type='text', name='item_name', value=item_name)
+      div.form-group
+        label.costumeAttr(for='category') item category
+        input#category(type='text', name='category', value=category)
+      div.form-group
+        label.costumeAttr(for='quantity') item quantity
+        input#quantity(type='number', name='quantity', value=quantity)
+      input(type="submit")
+    script.
+      document.forms['itemForm'].addEventListener('submit', (event) => {
+        event.preventDefault();
+        // TODO do something here to show the user that the form is being submitted
+        fetch(event.target.action, {
+          method: 'PUT',
+          body: new URLSearchParams(new FormData(event.target)) // event.target is the form
+        }).then((resp) => {
+          return resp.json();
+        }).then((body) => {
+          alert("Update succeeded");
+          // TODO handle body
+        }).catch((error) => {
+          // TODO handle error
+          alert("Save failed " + error);
+        });
+      });
