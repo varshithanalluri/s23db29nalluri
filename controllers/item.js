@@ -75,14 +75,40 @@ exports.item_update_put =async function(req, res) {
     failed`);
     }
     };
-exports.item_view_all_Page = async function(req, res) {
-    try{
-    theCostumes = await item.find();
-    res.render('items', { title: 'item Search Results', results: theCostumes });
-    }
-    catch(err){
-    res.status(500);
-    res.send(`{"error": ${err}}`);
-    } 
-   };
-   
+    exports.item_view_all_Page = async function(req, res) {
+        try{
+        theCostumes = await item.find();
+        res.render('items', { title: 'item Search Results', results: theCostumes });
+        }
+        catch(err){
+        res.status(500);
+        res.send(`{"error": ${err}}`);
+        } 
+       };
+
+    exports.item_view_one_Page = async function(req, res) {
+        console.log("single view for id " + req.query.id)
+        try{
+        result = await item.findById( req.query.id)
+        res.render('itemdetail',
+        { title: 'item Detail', toShow: result });
+        }
+        catch(err){
+        res.status(500)
+        res.send(`{'error': '${err}'}`);
+        }
+        };
+   // Handle building the view for creating a costume.
+// No body, no in path parameter, no query.
+// Does not need to be async
+exports.item_create_Page = function(req, res) {
+console.log("create view")
+try{
+res.render('itemcreate', { title: 'item create'});
+}
+catch(err){
+res.status(500)
+res.send(`{'error': '${err}'}`);
+}
+};
+

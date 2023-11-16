@@ -1,0 +1,22 @@
+extends layout
+
+block content
+  h1= title
+  - let id = toShow._id
+  - let item_name = toShow.item_name
+  - let category = toShow.category
+  - let quantity = toShow.quantity
+
+    div
+      div.row
+        div(class='costumeAttr mr-3') Item ID is:
+          div #{id}
+      div.row
+        div(class='costumeAttr mr-3') Item Name is:
+          div #{item_name}
+      div.row
+        div(class='costumeAttr mr-3') Item Category is:
+          div #{category}
+      div.row
+        div(class='costumeAttr mr-3') Item Quantity is:
+          div #{quantity}
