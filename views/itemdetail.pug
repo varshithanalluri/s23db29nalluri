@@ -2,10 +2,14 @@ extends layout
 
 block content
   h1= title
-  - let id = toShow._id
-  - let item_name = toShow.item_name
-  - let category = toShow.category
-  - let quantity = toShow.quantity
+
+  if (toShow == null)
+    h2 No instance to display
+  else
+    - let id = toShow._id
+    - let item_name = toShow.item_name
+    - let category = toShow.category
+    - let quantity = toShow.quantity
 
     div
       div.row

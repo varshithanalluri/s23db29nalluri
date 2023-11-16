@@ -2,7 +2,9 @@ extends layout
 
 block content
   h1= title
-  if toShow
+  if (toShow == null)
+    h2 No instance to update
+  else
     - let id = toShow._id
     - let item_name = toShow.item_name
     - let category = toShow.category

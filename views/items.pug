@@ -1,19 +1,21 @@
 extends layout
 
 block content
-  h1 Items Class
+  h1 Items Page
+  head
+    link(rel='stylesheet', href='https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css', integrity='sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm', crossorigin='anonymous')
+    
   .container-fluid
     .row
       - let items = [{ item_name: 'Laptop', category: 'Electronics', quantity: 10 },{ item_name: 'Lipsticks', category: 'Cosmetics', quantity: 2 },{ item_name: 'shirt', category: 'Clothing', quantity: 5 }]
-      each item, index in results
-        .col-sm-4(style="cursor: pointer", onclick=`buy(${index})`) 
-          h4= item.item_name
-          p item_name : #{item.item_name}
-          p Category: #{item.category}
-          p Quantity: #{item.quantity}
+      each item, index in items
+        .col-sm-4(style="cursor: pointer", onclick=`buy(${index})`)
+          .card.clickable-card(style=`background-color: #007bff; color: white;`) 
+            .card-body
+              h4.card-title= item.item_name
+              p.card-text Category: #{item.category}
+              p.card-text Quantity: #{item.quantity}
   script.
     function buy(index) {
       alert(`You purchased item ${index}`);
-    }  
-
-  
+    }
