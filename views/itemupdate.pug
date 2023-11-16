@@ -2,38 +2,53 @@ extends layout
 
 block content
   h1= title
-  if (toShow == null)
-    h2 No instance to delete
-  else
+  if toShow
     - let id = toShow._id
     - let item_name = toShow.item_name
     - let category = toShow.category
-    - let quantity= toShow.quantity
-    form(id='itemForm', action="/resource/item/"+id, method="PUT")
+    - let quantity = toShow.quantity
+    form(id='itemForm', action=`/resource/item/${id}`, method='PUT')
       div.form-group
-        label.costumeAttr(for='item_name') item name
+        label.costumeAttr(for='item_name') Item Name
         input#item_name(type='text', name='item_name', value=item_name)
       div.form-group
-        label.costumeAttr(for='category') item category
+        label.costumeAttr(for='category') Item Category
         input#category(type='text', name='category', value=category)
       div.form-group
-        label.costumeAttr(for='quantity') item quantity
+        label.costumeAttr(for='quantity') Item Quantity
         input#quantity(type='number', name='quantity', value=quantity)
-      input(type="submit")
+      input(type='submit')
     script.
-      document.forms['itemForm'].addEventListener('submit', (event) => {
+      document.forms['itemForm'].addEventListener('submit', async (event) => {
         event.preventDefault();
-        // TODO do something here to show the user that the form is being submitted
-        fetch(event.target.action, {
-          method: 'PUT',
-          body: new URLSearchParams(new FormData(event.target)) // event.target is the form
-        }).then((resp) => {
-          return resp.json();
-        }).then((body) => {
-          alert("Update succeeded");
-          // TODO handle body
-        }).catch((error) => {
-          // TODO handle error
-          alert("Save failed " + error);
-        });
+
+        try {
+          // TODO: Show loading indicator
+
+          const formData = new FormData(event.target);
+          const formObject = {};
+          formData.forEach((value, key) => {
+            formObject[key] = value;
+          });
+
+          const response = await fetch(event.target.action, {
+            method: 'PUT',
+            headers: {
+              'Content-Type': 'application/json',
+            },
+            body: JSON.stringify(formObject),
+          });
+
+          if (!response.ok) {
+            throw new Error(`HTTP error! Status: ${response.status}`);
+          }
+
+          const body = await response.json();
+          alert('Update succeeded');
+          // TODO: Handle response body
+        } catch (error) {
+          // TODO: Handle error
+          alert(`Update failed: ${error.message}`);
+        }
       });
+ 
