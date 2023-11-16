@@ -2,16 +2,15 @@ extends layout
 
 block content
   h1= title
-  form(id='itemForm', action="http://localhost:3000/resource/items", method="POST")
-
+  form(id='itemForm', action="/resource/item", method="POST")
     div.form-group
-      label.costumeAttr(for='item_name') item  name
-      input#item_name(type='text', name='name')
+      label.costumeAttr(for='item_name') item name
+      input#item_name(type='text', name='item_name')
     div.form-group
-      label.costumeAttr(for='category') item category
+      label.costumeAttr(for='category') category
       input#category(type='text', name='category')
     div.form-group
-      label.costumeAttr(for='quantity') item quantity
+      label.costumeAttr(for='quantity') quantity
       input#quantity(type='number', name='quantity')
     input(type="submit")
   script.
@@ -22,34 +21,12 @@ block content
         method: 'POST',
         body: new URLSearchParams(new FormData(event.target)) // event.target is the form
       }).then((resp) => {
-        if (!resp.ok) {
-          throw new Error(`HTTP error! Status: ${resp.status}`);
-        }
-
-        // Check if the response is JSON or not
-        const contentType = resp.headers.get('content-type');
-        if (contentType && contentType.includes('application/json')) {
-          return resp.json();
-        } else {
-          // If not JSON, handle the response differently
-          return resp.text().then((text) => {
-            // Log the non-JSON response text or handle it as needed
-            console.warn('Non-JSON response:', text);
-            throw new Error('Non-JSON response received');
-          });
-        }
+        return resp.json(); // or resp.text() or whatever the server sends
       }).then((body) => {
-        if (typeof body === 'object') {
-          // Handle successful JSON response
-          alert("Save succeeded");
-          // TODO handle body
-        } else {
-          // Handle successful non-JSON response
-          alert("Save succeeded, but the response is not JSON");
-          // TODO handle body
-        }
+        alert("Save succeeded")
+        // TODO handle body
       }).catch((error) => {
-        // Handle error
-        alert("Save failed " + error.message);
+        // TODO handle error
+        alert("Save failed " + error )
       });
     });
