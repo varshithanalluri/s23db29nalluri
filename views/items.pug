@@ -1,21 +1,29 @@
 extends layout
 
 block content
-  h1 Items Page
-  head
-    link(rel='stylesheet', href='https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css', integrity='sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm', crossorigin='anonymous')
-    
-  .container-fluid
-    .row
-      - let items = [{ item_name: 'Laptop', category: 'Electronics', quantity: 10 },{ item_name: 'Lipsticks', category: 'Cosmetics', quantity: 2 },{ item_name: 'shirt', category: 'Clothing', quantity: 5 }]
-      each item, index in items
-        .col-sm-4(style="cursor: pointer", onclick=`buy(${index})`)
-          .card.clickable-card(style=`background-color: #007bff; color: white;`) 
-            .card-body
-              h4.card-title= item.item_name
-              p.card-text Category: #{item.category}
-              p.card-text Quantity: #{item.quantity}
+  h1= title
+  - let items = results
+  div(class="container-fluid")
+   div(class="row m-1")
+    each item in items
+     -let destination=`dispatch(\"/items/update?id=${item._id}\")`
+     div(class="row-sm-2", class="m-1") Item #{item.item_name}(#{item.category}) is #{item.quantity}
+      button.btn( class="btn-primary ml-1", onclick= destination) Update
+   div.container-fluid
+    div.row
+     each vitems ,index in items
+      div.col-sm-2(onClick=`buy(${index})`) #{vitems.item_name}
+      div.col-sm-2(onClick=`buy(${index})`) #{vitems.category}
+      div.col-sm-2(onClick=`buy(${index})`) #{vitems.quantity} 
+      br
+      hr
+
   script.
-    function buy(index) {
-      alert(`You purchased item ${index}`);
-    }
+        function buy(index)
+        {
+            alert(`You purchased Item ${index+1}`)
+        }
+  script.
+   function dispatch(path){
+    window.location.href=path
+   }
