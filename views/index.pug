@@ -15,4 +15,12 @@ block content
       change += 1;
       document.getElementById("faster").textContent = "MPH " + mph + " with change " + change;
     }
-  a(href="/items") ----see my items----
+  if (!user)
+    a(href="/login") Login
+    br
+    a(href="/register") Register
+  if (user)
+    p You are currently logged in as #{user.username}
+    a(href="/items") --- SEE MY ITEMS ---
+    br
+    a(href="/logout") Logout

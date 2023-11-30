@@ -2,28 +2,52 @@ extends layout
 
 block content
   h1= title
+  head
+    link(rel='stylesheet', href='https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css', integrity='sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm', crossorigin='anonymous')
+    
   - let items = results
-  div(class="container-fluid")
-   div(class="row m-1")
-    each item in items
-     -let destination=`dispatch(\"/items/update?id=${item._id}\")`
-     div(class="row-sm-2", class="m-1") Item #{item.item_name}(#{item.category}) is #{item.quantity}
-      button.btn( class="btn-primary ml-1", onclick= destination) Update
-   div.container-fluid
-    div.row
-     each vitems ,index in items
-      div.col-sm-2(onClick=`buy(${index})`) #{vitems.item_name}
-      div.col-sm-2(onClick=`buy(${index})`) #{vitems.category}
-      div.col-sm-2(onClick=`buy(${index})`) #{vitems.quantity} 
-      br
-      hr
+  div(class="container-fluid align-items-center")
+    .col-sm-12.mb-3 
+      | To create a new Item :
+      button.btn.btn-primary(ml-1, onclick=`dispatch("${createPath}")`) Create
+
+    // Display items with an Update button
+    div(class="row m-1")
+      each item, index in items
+        - let updatePath = `/items/update?id=${item._id}`
+        - let detailPath = `/items/detail?id=${item._id}`
+        - let deletePath = `/items/delete?id=${item._id}`
+        - let createPath = `/items/create`
+        .card.clickable-card(style=`background-color: Lavender; color: Black;`)
+          | Item #{item.item_name}(#{item.category}) is #{item.quantity}
+          div.button-container
+            button.btn.btn-primary(ml-1, onclick=`dispatch("${updatePath}")`) Update
+            button.btn.btn-primary(ml-1, onclick=`dispatch("${detailPath}")`) Detail 
+            button.btn.btn-primary(ml-1, onclick=`dispatch("${deletePath}")`) Delete       
+
+    // Additional details with a purchase feature
+    div.container-fluid
+      div.row
+        each item, index in items
+          div.col-sm-2.card.clickable-card(onclick=`buy(${index})`, style=`background-color: yellow; color: Black;`)
+            | #{item.item_name}
+          div.col-sm-2.card.clickable-card(onclick=`buy(${index})`, style=`background-color: Lavender; color: Black;`)
+            | #{item.category}
+          div.col-sm-2.card.clickable-card(onclick=`buy(${index})`, style=`background-color: Yellow; color: Black;`)
+            | #{item.quantity}
+          br
+          hr
+
+    // Back to Index link
+    a(href="/") Back to Index
 
   script.
-        function buy(index)
-        {
-            alert(`You purchased Item ${index+1}`)
-        }
-  script.
-   function dispatch(path){
-    window.location.href=path
-   }
+    // Keep the existing buy function
+    function buy(index) {
+      alert(`You purchased Item ${index + 1}`);
+    }
+
+    // Keep the existing dispatch function
+    function dispatch(path) {
+      window.location.href = path;
+    }
