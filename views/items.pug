@@ -6,6 +6,8 @@ block content
     link(rel='stylesheet', href='https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css', integrity='sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm', crossorigin='anonymous')
     
   - let items = results
+  - let createPath = `/items/create`
+  
   div(class="container-fluid align-items-center")
     .col-sm-12.mb-3 
       | To create a new Item :
@@ -17,7 +19,6 @@ block content
         - let updatePath = `/items/update?id=${item._id}`
         - let detailPath = `/items/detail?id=${item._id}`
         - let deletePath = `/items/delete?id=${item._id}`
-        - let createPath = `/items/create`
         .card.clickable-card(style=`background-color: Lavender; color: Black;`)
           | Item #{item.item_name}(#{item.category}) is #{item.quantity}
           div.button-container
